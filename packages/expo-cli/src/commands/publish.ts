@@ -112,6 +112,7 @@ export async function action(projectDir: string, options: Options = {}) {
 
   const result = await Project.publishAsync(projectDir, {
     releaseChannel: options.releaseChannel,
+    quiet: options.quiet,
   });
 
   let url = result.url;
