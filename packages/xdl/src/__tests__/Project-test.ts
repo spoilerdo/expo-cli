@@ -29,9 +29,7 @@ jest.mock('axios', () => ({
     } else if (hostname !== 'exp.host') {
       throw new Error(`Test tried to make a request to unknown host ${hostname}`);
     }
-    // const response = await require.requireActual('axios').request(options);
-    // console.log(response.data);
-    // return response;
+
     const methodAndPath = options.method.toUpperCase() + ' ' + pathname;
     switch (methodAndPath) {
       case 'POST /--/api/v2/auth/loginAsync':
