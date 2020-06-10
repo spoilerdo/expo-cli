@@ -17,6 +17,14 @@ jest.mock('../project/Doctor', () => ({
   },
 }));
 
+function mockApiV2Response(data: any) {
+  return {
+    data: {
+      data,
+    },
+  };
+}
+
 jest.mock('axios', () => ({
   async request(options: AxiosRequestConfig) {
     const { URL } = jest.requireActual('url');
@@ -33,34 +41,20 @@ jest.mock('axios', () => ({
     const methodAndPath = options.method.toUpperCase() + ' ' + pathname;
     switch (methodAndPath) {
       case 'POST /--/api/v2/auth/loginAsync':
-        return {
-          data: {
-            data: {
-              sessionSecret: 'fake-session-secret',
-            },
-          },
-        };
+        return mockApiV2Response({ sessionSecret: 'fake-session-secret' });
       case 'POST /--/api/v2/auth/userProfileAsync':
-        return {
-          data: {
-            data: {
-              id: '7e577e57-7e57-7e57-7e57-c0ffeec0ffee',
-              user_id: '7e577e57-7e57-7e57-7e57-c0ffeec0ffee',
-              username: 'testing',
-              nickname: 'testing',
-              picture: 'https://www.gravatar.com/avatar/23463b99b62a72f26ed677cc556c44e8',
-            },
-          },
-        };
+        return mockApiV2Response({
+          id: '7e577e57-7e57-7e57-7e57-c0ffeec0ffee',
+          user_id: '7e577e57-7e57-7e57-7e57-c0ffeec0ffee',
+          username: 'testing',
+          nickname: 'testing',
+          picture: 'https://www.gravatar.com/avatar/23463b99b62a72f26ed677cc556c44e8',
+        });
       case 'PUT /--/api/v2/publish/new':
-        return {
-          data: {
-            data: {
-              url: 'https://test.exp.host/@testing/publish-test-app',
-              ids: ['1', '2'],
-            },
-          },
-        };
+        return mockApiV2Response({
+          url: 'https://test.exp.host/@testing/publish-test-app',
+          ids: ['1', '2'],
+        });
       default:
         throw new Error(
           'Test tried to make a request to unmocked endpoint (' + methodAndPath + ')'
