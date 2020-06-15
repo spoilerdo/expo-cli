@@ -31,7 +31,10 @@ async function createBuilderContextAsync(projectDir: string): Promise<BuilderCon
   const user: User = await UserManager.ensureLoggedInAsync();
   const { exp } = getConfig(projectDir);
   const accountName = exp.owner || user.username;
-  const projectName = exp.slug || 'untitled';
+  if (!exp.slug) {
+    throw new Error('Please set the expo.slug field in app.json');
+  }
+  const projectName = exp.slug;
   return {
     projectDir,
     user,
